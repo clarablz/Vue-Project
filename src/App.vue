@@ -1,28 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>Pokedex</p>
+    <Gallery></Gallery>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Gallery from './components/Gallery.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Gallery
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+p {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-size: 18px;
+}
+
+#app{
+  display: flex;
+  flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
+  background-color: #f6f8fc;
 }
 </style>
