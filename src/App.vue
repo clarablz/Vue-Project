@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <p>Pokedex</p>
-    <Gallery></Gallery>
+    <h1>Pokedex</h1>
+    <Gallery :imageUrl="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'"></Gallery>
   </div>
 </template>
 
@@ -18,9 +18,13 @@ export default {
 </script>
 
 <style>
-p {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+h1 {
   text-align: center;
-  font-size: 18px;
+  font-size: 4vw;
+  font-family: 'Montserrat';
+  font-weight: 800;
 }
 
 #app{

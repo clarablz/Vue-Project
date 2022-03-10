@@ -1,12 +1,15 @@
 <template>
 <div class = "gallery">
-      <Card :name="pokeData[0].name" number="001" type="Plante et Poison" id="card_1"></Card>
-      <Card :name="pokeData[1].name" number="002" type="Plante et Poison" id="card_2"></Card>
-      <Card :name="pokeData[2].name" number="003" type="Plante et Poison" id="card_3"></Card>
-      <Card :name="pokeData[3].name" number="004" type="Feu" id="card_4"></Card>
-      <Card :name="pokeData[4].name" number="005" type="Feu" id="card_5"></Card>
-      <Card :name="pokeData[5].name" number="006" type="Feu et vol" id="card_6"></Card>
-      
+
+      <Card 
+            v-for="(pokemon, index) in pokeData"
+            :key="'poke'+index" 
+            :name="pokemon.name"
+            :pictureUrl="imageUrl + pokemon.id + '.png'" 
+            />
+            
+
+
 </div>
 </template>
 
@@ -19,22 +22,39 @@ getPokeData()
 
 export default {
   name: 'Gallery',
+  props: {
+        imageUrl: String
+  },
   components: {
         Card
   },
   data(){
         return{
-              pokeData: []
+              pokeData: [],
+              nextUrl: ''
         }
   },
   created: function(){
         this.retrievePokeData()
+        console.log(this.pokeData)
   },
   methods: {
-		async retrievePokeData() {
-			this.pokeData = await getPokeData()
-                  this.pokeData = this.pokeData["results"]
-                  console.log(this.pokeData)
+		retrievePokeData() {
+                  let req = new Request("https://pokeapi.co/api/v2/pokemon?offset=0")
+                  fetch(req)
+                        .then((resp)=> {
+                              if(resp.status ===200)
+                                    return resp.json()
+                        })
+                        .then((data)=>{
+                              this.nextUrl = data.next 
+                              data.results.forEach(pokemon => {
+                                    pokemon.id=pokemon.url.split('/')
+                                          .filter(function(part) {return !!part}).pop()
+                                    this.pokeData.push(pokemon)                                   
+                              });
+                        })
+                  
             }
 	}
 

@@ -36,9 +36,10 @@ export default {
       display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: center;
 	align-content: space-around;
       text-transform: capitalize;
+      cursor: pointer;
 }
 </style>
