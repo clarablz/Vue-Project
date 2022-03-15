@@ -1,15 +1,26 @@
 <template>
-<div class = "gallery">
+<div class = "pokemon-gallery">
+      <div class="gallery-options">
+		<input type="text" class="search-bar" v-model="search" placeholder="Look for a pokemon">
+            <button v-if="search" @click="cleanSearch" class="erase-button">X</button>
+            <label for="pokemon-sort" class="sort-by">Sort by: </label>
+				<select v-model="pokemonSortType" id="pokemon-sort" class="select-filter">
+                              <option value="IncreasingId">Id (increasing)</option>
+                              <option value="DecreasingId">Id (decresing)</option>
+                              <option value="AZName">Names from A to Z</option>
+                              <option value="ZAName">Names from Z to A</option>
+				</select>
+	</div>
 
-      <Card 
-            v-for="(pokemon, index) in pokeData"
-            :key="'poke'+index" 
-            :name="pokemon.name"
-            :pictureUrl="imageUrl + pokemon.id + '.png'" 
-            />
-            
-
-
+      <div class="gallery">
+            <Card 
+                  v-for="(pokemon, index) in pokemonsOrganizedData"
+                  :key="'poke'+index" 
+                  :name="pokemon.name"
+                  :number="pokemon.id"
+                  :pictureUrl="imageUrl + pokemon.id + '.png'" 
+            /> 
+      </div>
 </div>
 </template>
 
@@ -22,6 +33,23 @@ getPokeData()
 
 export default {
   name: 'Gallery',
+  computed: {
+      pokemonsOrganizedData: function() {
+	const field = ["AZName", "ZAName"].includes(this.pokemonSortType) ? "name" : "id"
+			const reversed = ["ZAName", "DecreasingId"].includes(this.pokemonSortType)
+			const filterFunc = (a) => a.name.toLowerCase().includes(this.search.toLowerCase())
+			const comparator = (a, b) => a[field].localeCompare(b[field]) 
+			let data = this.pokeData.filter(filterFunc)
+                  if(field=="name"){
+                        data = data.sort(comparator)
+                  }
+			if(field=="id"){
+                        data=data.sort(function(a, b) {  return a - b;});
+                  }
+			if (reversed) data = data.reverse()
+			return data
+      }
+},
   props: {
         imageUrl: String
   },
@@ -31,7 +59,9 @@ export default {
   data(){
         return{
               pokeData: [],
-              nextUrl: ''
+              nextUrl: '',
+              search: "",
+              pokemonSortType: "IncreasingId"
         }
   },
   created: function(){
@@ -40,7 +70,7 @@ export default {
   },
   methods: {
 		retrievePokeData() {
-                  let req = new Request("https://pokeapi.co/api/v2/pokemon?offset=0")
+                  let req = new Request("https://pokeapi.co/api/v2/pokemon?offset=0&limit=200")
                   fetch(req)
                         .then((resp)=> {
                               if(resp.status ===200)
@@ -55,6 +85,9 @@ export default {
                               });
                         })
                   
+            },
+            cleanSearch: function() {
+                  this.search=""
             }
 	}
 
@@ -63,8 +96,40 @@ export default {
 
 
 <style>
+
+      .pokemon-gallery{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+      }
       .gallery{
             display: grid;
             grid-template-columns: 20vw 20vw 20vw;
       }
+
+      .search-bar{
+            font-family: 'Montserrat';
+            border-radius: 40px;
+            border: 1px solid grey;
+            padding-left: 10px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            margin-right: 20px;
+      }
+
+      .sort-by{
+            font-family: 'Montserrat';
+      }
+
+      .select-filter{
+            font-family: 'Montserrat';
+            border-radius: 40px;
+            border: 1px solid grey;
+            margin-left: 5px;
+            padding-left: 10px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+      }
+
 </style>

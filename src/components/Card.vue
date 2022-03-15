@@ -3,7 +3,6 @@
             <img class="picture" v-bind:src="pictureUrl"/>
             <p class="name">{{name}}</p>
             <p class="number">{{number}}</p>
-            <p class="name">{{type}}</p>
       </div>
 </template>
 
