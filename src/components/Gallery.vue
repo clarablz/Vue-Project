@@ -1,6 +1,7 @@
 <template>
 <div class = "pokemon-gallery">
-      <div class="gallery-options">
+      <Details v-show="isVisible == true"/>
+      <div class="gallery-options">        
 		<input type="text" class="search-bar" v-model="search" placeholder="Look for a pokemon">
             <button v-if="search" @click="cleanSearch" class="erase-button">X</button>
             <label for="pokemon-sort" class="sort-by">Sort by: </label>
@@ -13,7 +14,7 @@
 	</div>
 
       <div class="gallery">
-            <Card 
+            <Card @click.native="displayDetails"
                   v-for="(pokemon, index) in pokemonsOrganizedData"
                   :key="'poke'+index" 
                   :name="pokemon.name"
@@ -21,6 +22,7 @@
                   :pictureUrl="imageUrl + pokemon.id + '.png'" 
             /> 
       </div>
+      
 </div>
 </template>
 
@@ -28,6 +30,8 @@
 <script>
 import Card from '../components/Card.vue'
 import getPokeData from '@/services/api/pokeAPI'
+import Details from '../components/Details.vue'
+
 getPokeData()
 
 
@@ -44,7 +48,7 @@ export default {
                         data = data.sort(comparator)
                   }
 			if(field=="id"){
-                        data=data.sort(function(a, b) {  return a - b;});
+                        data=data.sort()
                   }
 			if (reversed) data = data.reverse()
 			return data
@@ -54,14 +58,17 @@ export default {
         imageUrl: String
   },
   components: {
-        Card
+        Card,
+    Details
   },
   data(){
         return{
               pokeData: [],
               nextUrl: '',
               search: "",
-              pokemonSortType: "IncreasingId"
+              pokemonSortType: "IncreasingId",
+              isVisible: false
+              
         }
   },
   created: function(){
@@ -88,7 +95,13 @@ export default {
             },
             cleanSearch: function() {
                   this.search=""
-            }
+            },
+            displayDetails : function() {
+			this.isVisible=!this.isVisible
+                  
+		}
+            
+		
 	}
 
 }
@@ -132,4 +145,5 @@ export default {
             padding-bottom: 4px;
       }
 
+      
 </style>

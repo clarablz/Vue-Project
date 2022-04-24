@@ -4,6 +4,7 @@
             <p class="name">{{name}}</p>
             <p class="number">{{number}}</p>
       </div>
+      
 </template>
 
 
@@ -14,7 +15,7 @@ export default {
         name: {type: String, default:"Pokemon"},
         number: String,
         type: String,
-        pictureUrl: {type: String, default:"https://img.icons8.com/clouds/2x/fa314a/pokemon-go.png"}
+        pictureUrl: {type: String, default:"https://img.icons8.com/clouds/2x/fa314a/pokemon-go.png"},
   }
 
 }
@@ -41,4 +42,11 @@ export default {
       text-transform: capitalize;
       cursor: pointer;
 }
+
+.poke_details{
+            height:10vh;
+            width:10vh;
+            background-color: white;
+      }
+
 </style>
