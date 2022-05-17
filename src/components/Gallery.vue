@@ -1,26 +1,16 @@
 <template>
-<div class = "pokemon-gallery">
-      <Details v-show="isVisible == true"/>
-      <div class="gallery-options">        
-		<input type="text" class="search-bar" v-model="search" placeholder="Look for a pokemon">
-            <button v-if="search" @click="cleanSearch" class="erase-button">X</button>
-            <label for="pokemon-sort" class="sort-by">Sort by: </label>
-				<select v-model="pokemonSortType" id="pokemon-sort" class="select-filter">
-                              <option value="IncreasingId">Id (increasing)</option>
-                              <option value="DecreasingId">Id (decresing)</option>
-                              <option value="AZName">Names from A to Z</option>
-                              <option value="ZAName">Names from Z to A</option>
-				</select>
-	</div>
+<div class = "pokemon_gallery">
+      <GalleryOptions :search.sync="search" :pokemon_sort_type.sync="pokemon_sort_type"/>
 
       <div class="gallery">
-            <Card @click.native="displayDetails"
-                  v-for="(pokemon, index) in pokemonsOrganizedData"
+            <Card @click.native="set_pokemon_url(pokemon.url)"
+                  v-for="(pokemon, index) in pokemons_organized_data"
                   :key="'poke'+index" 
                   :name="pokemon.name"
                   :number="pokemon.id"
-                  :pictureUrl="imageUrl + pokemon.id + '.png'" 
+                  :picture_url="image_url + pokemon.id + '.gif'" 
             /> 
+            
       </div>
       
 </div>
@@ -29,18 +19,16 @@
 
 <script>
 import Card from '../components/Card.vue'
-import getPokeData from '@/services/api/pokeAPI'
-import Details from '../components/Details.vue'
+import GalleryOptions from '../components/GalleryOptions.vue'
 
-getPokeData()
 
 
 export default {
   name: 'Gallery',
   computed: {
-      pokemonsOrganizedData: function() {
-	const field = ["AZName", "ZAName"].includes(this.pokemonSortType) ? "name" : "id"
-			const reversed = ["ZAName", "DecreasingId"].includes(this.pokemonSortType)
+      pokemons_organized_data: function() {
+	const field = ["AZName", "ZAName"].includes(this.pokemon_sort_type) ? "name" : "id"
+			const reversed = ["ZAName", "DecreasingId"].includes(this.pokemon_sort_type)
 			const filterFunc = (a) => a.name.toLowerCase().includes(this.search.toLowerCase())
 			const comparator = (a, b) => a[field].localeCompare(b[field]) 
 			let data = this.pokeData.filter(filterFunc)
@@ -55,51 +43,53 @@ export default {
       }
 },
   props: {
-        imageUrl: String
+        image_url: String
   },
   components: {
         Card,
-    Details
+        GalleryOptions
   },
   data(){
         return{
               pokeData: [],
-              nextUrl: '',
-              search: "",
-              pokemonSortType: "IncreasingId",
-              isVisible: false
-              
+              search: localStorage.getItem("search") || "",
+              pokemon_sort_type: localStorage.getItem("pokemon_sort_type") || "",
+              next_url: '',
+              current_url: ''              
         }
   },
-  created: function(){
-        this.retrievePokeData()
-        console.log(this.pokeData)
+  created(){
+        this.current_url = "https://pokeapi.co/api/v2/pokemon/";
+        this.retrieve_poke_data()
   },
   methods: {
-		retrievePokeData() {
-                  let req = new Request("https://pokeapi.co/api/v2/pokemon?offset=0&limit=200")
+		retrieve_poke_data() {
+                  let req = new Request("https://pokeapi.co/api/v2/pokemon/")
                   fetch(req)
                         .then((resp)=> {
                               if(resp.status ===200)
                                     return resp.json()
                         })
                         .then((data)=>{
-                              this.nextUrl = data.next 
+                              this.next_url = data.next 
                               data.results.forEach(pokemon => {
                                     pokemon.id=pokemon.url.split('/')
                                           .filter(function(part) {return !!part}).pop()
                                     this.pokeData.push(pokemon)                                   
                               });
                         })
+                        .catch((error) => {
+                              console.log(error);
+                        })
                   
             },
-            cleanSearch: function() {
-                  this.search=""
+            next(){
+                  this.current_url = this.next_url;
+                  this.retrieve_poke_data();
             },
-            displayDetails : function() {
-			this.isVisible=!this.isVisible
-                  
-		}
+            set_pokemon_url(url){
+                  this.$emit('set_pokemon_url', url);
+            }
             
 		
 	}
@@ -110,7 +100,7 @@ export default {
 
 <style>
 
-      .pokemon-gallery{
+      .pokemon_gallery{
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -145,5 +135,10 @@ export default {
             padding-bottom: 4px;
       }
 
+      @media screen and (max-width: 586px) {
+            .gallery{
+                  grid-template-columns: 60vw;
+            }
+      }
       
 </style>

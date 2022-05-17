@@ -1,8 +1,8 @@
 <template>
       <div class="card">
-            <img class="picture" v-bind:src="pictureUrl"/>
+            <img class="picture" v-bind:src="picture_url"/>
             <p class="name">{{name}}</p>
-            <p class="number">{{number}}</p>
+            <p class="number">#{{number}}</p>
       </div>
       
 </template>
@@ -15,7 +15,7 @@ export default {
         name: {type: String, default:"Pokemon"},
         number: String,
         type: String,
-        pictureUrl: {type: String, default:"https://img.icons8.com/clouds/2x/fa314a/pokemon-go.png"},
+        picture_url: {type: String, default:"https://img.icons8.com/clouds/2x/fa314a/pokemon-go.png"},
   }
 
 }

@@ -1,0 +1,108 @@
+.fire {
+      background-color: #ffa54d;
+      filter: drop-shadow(5px 5px 5px #ffa64d4b);
+
+  }
+  
+  .water {
+      background-color: #349edf;
+      filter: drop-shadow(5px 5px 5px #349edf4b);
+
+  }
+  
+  .grass {
+      background-color: #6abd5a;
+      filter: drop-shadow(5px 5px 5px #6abd5a4b);
+
+  }
+  
+  .bug {
+      background-color: #9bbb31;
+      filter: drop-shadow(5px 5px 5px #9bbb314b);
+
+  }
+  
+  .poison {
+      background-color: #b066cf;
+      filter: drop-shadow(5px 5px 5px #b066cf4b);
+
+  }
+  
+  .ice {
+      background-color: #73d0c2;
+      filter: drop-shadow(5px 5px 5px #73d0c24b);
+
+  }
+  
+  .normal {
+      background-color: #a0a29f;
+      filter: drop-shadow(5px 5px 5px #a0a29f4b);
+
+  }
+  
+  .fighting {
+      background-color: #d6435f;
+      filter: drop-shadow(5px 5px 5px #d6435f4b);
+
+  }
+  
+  .electric {
+      background-color: #fbd850;
+      filter: drop-shadow(5px 5px 5px #fbd8504b);
+
+  }
+  
+  .flying {
+      background-color: #98bcec;
+      filter: drop-shadow(5px 5px 5px #98bcec4b);
+
+  }
+  
+  .dragon {
+      background-color: #006cc7;
+      filter: drop-shadow(5px 5px 5px #006cc74b);
+
+  }
+  
+  .rock {
+      background-color: #de7c4d;
+      filter: drop-shadow(5px 5px 5px #de7c4d4b);
+
+  }
+  
+  .ground {
+      background-color: #cebb8b;
+      filter: drop-shadow(5px 5px 5px #cebb8b4b);
+
+  }
+  
+  .steel {
+      background-color: #4f95a3;
+      filter: drop-shadow(5px 5px 5px #4f95a34b);
+
+  }
+  
+  .ghost {
+      background-color: #4e6fbc;
+      filter: drop-shadow(5px 5px 5px #4e6fbc4b);
+
+  }
+  
+  .fairy {
+      background-color: #eb93e5;
+      filter: drop-shadow(5px 5px 5px #eb93e54b);
+
+  }
+  
+  .psychic {
+      background-color: #fe8581;
+      filter: drop-shadow(5px 5px 5px #fe85814b);
+
+  }
+  
+  .dark {
+      background-color: #585761;
+      filter: drop-shadow(5px 5px 5px #5857614b);
+
+  }
+  

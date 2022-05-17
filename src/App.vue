@@ -1,18 +1,17 @@
 <template>
   <div id="app">
-    <h1>Pokedex</h1>
-    <Gallery :imageUrl="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'"></Gallery>
+    <Pokedex/>
   </div>
 </template>
 
 <script>
-import Gallery from './components/Gallery.vue'
+import Pokedex from './components/Pokedex.vue'
 
 
 export default {
   name: 'App',
   components: {
-    Gallery
+    Pokedex
   }
 }
 </script>
