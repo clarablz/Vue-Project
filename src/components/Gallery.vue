@@ -10,6 +10,7 @@
                   :number="pokemon.id"
                   :picture_url="image_url + pokemon.id + '.gif'" 
             /> 
+            <div class="scroll_trigger" ref="infinite_scroll_trigger"></div>
             
       </div>
       
@@ -27,19 +28,19 @@ export default {
   name: 'Gallery',
   computed: {
       pokemons_organized_data: function() {
-	const field = ["AZName", "ZAName"].includes(this.pokemon_sort_type) ? "name" : "id"
-			const reversed = ["ZAName", "DecreasingId"].includes(this.pokemon_sort_type)
-			const filterFunc = (a) => a.name.toLowerCase().includes(this.search.toLowerCase())
-			const comparator = (a, b) => a[field].localeCompare(b[field]) 
-			let data = this.pokeData.filter(filterFunc)
-                  if(field=="name"){
-                        data = data.sort(comparator)
-                  }
-			if(field=="id"){
-                        data=data.sort()
-                  }
-			if (reversed) data = data.reverse()
-			return data
+            const field = ["AZName", "ZAName"].includes(this.pokemon_sort_type) ? "name" : "id"
+            const reversed = ["ZAName", "DecreasingId"].includes(this.pokemon_sort_type)
+            const filterFunc = (a) => a.name.toLowerCase().includes(this.search.toLowerCase())
+            const comparator = (a, b) => a[field].localeCompare(b[field]) 
+            let data = this.pokeData.filter(filterFunc)
+            if(field=="name"){
+                  data = data.sort(comparator)
+            }
+            if(field=="id"){
+                  data=data.sort()
+            }
+            if (reversed) data = data.reverse()
+            return data
       }
 },
   props: {
@@ -62,9 +63,12 @@ export default {
         this.current_url = "https://pokeapi.co/api/v2/pokemon/";
         this.retrieve_poke_data()
   },
+  mounted(){
+        this.infinite_scroll();
+  },
   methods: {
 		retrieve_poke_data() {
-                  let req = new Request("https://pokeapi.co/api/v2/pokemon/")
+                  let req = new Request(this.current_url)
                   fetch(req)
                         .then((resp)=> {
                               if(resp.status ===200)
@@ -89,6 +93,16 @@ export default {
             },
             set_pokemon_url(url){
                   this.$emit('set_pokemon_url', url);
+            },
+            infinite_scroll(){
+                  const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry =>{
+                              if(entry.intersectionRatio > 0  && this.next_url){
+                                    this.next();
+                              }
+                        })
+                  })
+                  observer.observe(this.$refs.infinite_scroll_trigger);
             }
             
 		

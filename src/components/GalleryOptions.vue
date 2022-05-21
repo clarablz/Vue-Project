@@ -1,5 +1,5 @@
 <template>
-<div class="gallery_options">        
+<div class="gallery_options">
 		<input type="text" :value="search" @input="on_search_changed" class="search_bar" placeholder="Look for a pokemon">
         <button v-if="search" @click="clean_search" class="erase_button">X</button>
 		<select :value="pokemon_sort_type" @input="on_pokemon_sort_type_changed" id="pokemon_sort" class="select_filter">
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+
 export default{
     name: 'GalleryOptions',
     props: {
