@@ -13,6 +13,8 @@
             :shiny_image_url="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/'"
             @close_detail="close_detail"
             />
+
+            <Footer/>
       </div>
 </template>
 
@@ -20,6 +22,7 @@
 import Header from "../components/Header.vue"
 import Gallery from "../components/Gallery.vue"
 import Detail from "../components/Detail.vue"
+import Footer from "../components/Footer.vue"
 
 export default {
       data:() =>{
@@ -33,7 +36,8 @@ export default {
       components:{
             Header,
             Gallery,
-            Detail
+            Detail,
+            Footer
             },
       methods: {
             set_pokemon_url(url){
