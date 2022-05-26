@@ -72,11 +72,7 @@ export default {
   created: function(){
       this.retrieve_poke_data();
       }
-
-
 }
-
-
 </script>
 
 

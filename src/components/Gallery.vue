@@ -60,7 +60,7 @@ export default {
         }
   },
   created(){
-        this.current_url = "https://pokeapi.co/api/v2/pokemon/";
+        this.current_url = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20";
         this.retrieve_poke_data()
   },
   mounted(){
